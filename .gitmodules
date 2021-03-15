@@ -7,3 +7,6 @@
 [submodule "usr_hello_world"]
 	path = usr_hello_world
 	url = git@github.com:willson0v0/usr_hello_world
+[submodule "kflash.py"]
+	path = kflash.py
+	url = git@github.com:kendryte/kflash.py.git
