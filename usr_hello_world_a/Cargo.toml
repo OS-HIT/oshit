@@ -1,5 +1,5 @@
 [package]
-name = "usr_hello_world"
+name = "usr_hello_world_a"
 version = "0.1.0"
 authors = ["willson0v0 <willsonlgz@gmail.com>"]
 edition = "2018"
