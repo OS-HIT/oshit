@@ -12,6 +12,9 @@ with open(linker, 'r') as f:
     for line in f.readlines():
         lines_before.append(line)
 
+if not os.path.exists("user_bins"):
+    os.mkdir("user_bins")
+
 for app in apps:
     if app[:4] != "usr_":
         continue 
