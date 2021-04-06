@@ -1,0 +1,21 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "gdb",
+            "request": "attach",
+            "name": "Attach to gdbserver",
+            "executable": "oshit_kernel/target/riscv64gc-unknown-none-elf/debug/oshit_kernel",
+            "target": "127.0.0.1:1234",
+            "remote": true,
+            "cwd": "${workspaceRoot}", 
+            "gdbpath": "riscv64-unknown-elf-gdb",
+            "autorun": [
+                    "b rust_main"
+                ]
+        }
+    ]
+}
