@@ -29,5 +29,5 @@ for app in apps:
     os.system("cp target/riscv64gc-unknown-none-elf/release/%s ../user_bins/%s" % (app, app))
     # os.system("rust-objcopy --binary-architecture=riscv64 target/riscv64gc-unknown-none-elf/release/%s --strip-all -O binary ../user_bins/%s.bin" % (app, app))
     os.chdir("..")
-    print('[build.py] application %s start with address %s' %(app, hex(base_address+step*app_id)))
+    print('[build.py] application %s processed' %(app))
     app_id = app_id + 1

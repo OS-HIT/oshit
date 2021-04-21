@@ -7,5 +7,8 @@ run: user
 debug: user
 	make -C oshit_kernel debug
 
+clean:
+	make -C oshit_kernel clean
+
 .PHONY:
-	run user
+	run user clean
