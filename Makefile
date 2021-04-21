@@ -9,6 +9,7 @@ debug: user
 
 clean:
 	make -C oshit_kernel clean
+	rm user_bins/*
 
 .PHONY:
 	run user clean

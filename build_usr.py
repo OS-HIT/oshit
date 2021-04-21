@@ -12,8 +12,14 @@ with open(linker, 'r') as f:
     for line in f.readlines():
         lines_before.append(line)
 
-if not os.path.exists("user_bins"):
-    os.mkdir("user_bins")
+usr_bin_dir = "user_bins"
+
+if not os.path.exists(usr_bin_dir):
+    os.mkdir(usr_bin_dir)
+else:
+    filelist = [ f for f in os.listdir(usr_bin_dir) ]
+    for f in filelist:
+        os.remove(os.path.join(usr_bin_dir, f))
 
 for app in apps:
     if app[:4] != "usr_":
@@ -25,6 +31,7 @@ for app in apps:
     with open(app + "/src/" + linker, 'w+') as f:
         f.writelines(lines)
     os.chdir(app)
+    os.system('cargo clean')
     os.system('cargo build --bin %s --release' % app)
     os.system("cp target/riscv64gc-unknown-none-elf/release/%s ../user_bins/%s" % (app, app))
     # os.system("rust-objcopy --binary-architecture=riscv64 target/riscv64gc-unknown-none-elf/release/%s --strip-all -O binary ../user_bins/%s.bin" % (app, app))

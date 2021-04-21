@@ -1,20 +1,36 @@
 #![no_std]
 #![no_main]
+#![feature(asm)]
 
 #[macro_use]
 extern crate oshit_usrlib;
 
-use oshit_usrlib::sys_yield;
-
-const HEIGHT: usize = 50;
+use oshit_usrlib::{
+    sys_time,
+    TMS
+};
 
 #[no_mangle]
 fn main() -> i32 {
-    for i in 0..HEIGHT {
-        print!("测试B，重复输出另一个字符串。");
-        println!(" [{}/{}]", i + 1, HEIGHT);
-        // sys_yield();
+    for _i in 0..100000000 {
+        unsafe{
+            asm!("nop");
+            asm!("nop");
+            asm!("nop");
+            asm!("nop");
+            asm!("nop");
+        }
     }
-    println!("Test write_b OK!");
+
+    for _i in 0..100 {
+        let mut t: TMS = TMS{
+            tms_utime   : 0,
+            tms_stime   : 0,
+            tms_cutime  : 0,
+            tms_cstime  : 0,
+        };
+        print!("\rCurrent tick: {:>20}; S Time: {:>20}; U Time: {:>20};", sys_time(&mut t), t.tms_stime, t.tms_utime);
+    }
+
     0
 }
