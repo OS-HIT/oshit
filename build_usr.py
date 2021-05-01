@@ -21,8 +21,10 @@ else:
     for f in filelist:
         os.remove(os.path.join(usr_bin_dir, f))
 
+app_list = ["proc0", "uname_test", "time_test", "hello_world", "shell"]
+
 for app in apps:
-    if app[:4] != "usr_":
+    if app not in app_list:
         continue 
     lines = lines_before
     # for line in lines_before:
@@ -31,8 +33,11 @@ for app in apps:
     with open(app + "/src/" + linker, 'w+') as f:
         f.writelines(lines)
     os.chdir(app)
+    print("cleaning...")
     os.system('cargo clean')
+    print("building...")
     os.system('cargo build --bin %s --release' % app)
+    print("copying...")
     os.system("cp target/riscv64gc-unknown-none-elf/release/%s ../user_bins/%s" % (app, app))
     # os.system("rust-objcopy --binary-architecture=riscv64 target/riscv64gc-unknown-none-elf/release/%s --strip-all -O binary ../user_bins/%s.bin" % (app, app))
     os.chdir("..")

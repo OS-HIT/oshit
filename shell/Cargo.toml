@@ -1,5 +1,5 @@
 [package]
-name = "usr_hello_world_a"
+name = "shell"
 version = "0.1.0"
 authors = ["willson0v0 <willsonlgz@gmail.com>"]
 edition = "2018"
@@ -8,3 +8,6 @@ edition = "2018"
 
 [dependencies]
 oshit_usrlib = { path = "../oshit_usrlib" }
+
+[features]
+board_qemu = []

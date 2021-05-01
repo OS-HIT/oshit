@@ -12,7 +12,7 @@
             "target": "127.0.0.1:1234",
             "remote": true,
             "cwd": "${workspaceRoot}", 
-            "gdbpath": "/home/willson0v0/riscv64-debug/bin/riscv64-unknown-elf-gdb",
+            "gdbpath": "riscv64-unknown-elf-gdb",
             "autorun": [
                     "b rust_main"
                 ]

@@ -5,7 +5,7 @@ name = "oshit_usrlib"
 version = "0.1.0"
 
 [[package]]
-name = "usr_hello_world_a"
+name = "systime_test"
 version = "0.1.0"
 dependencies = [
  "oshit_usrlib",
