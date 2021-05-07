@@ -12,24 +12,14 @@ use oshit_usrlib::{
 
 #[no_mangle]
 fn main() -> i32 {
-    for _i in 0..100000000 {
-        unsafe{
-            asm!("nop");
-            asm!("nop");
-            asm!("nop");
-            asm!("nop");
-            asm!("nop");
-        }
-    }
-
-    for _i in 0..100 {
+    for _i in 0..10 {
         let mut t: TMS = TMS{
             tms_utime   : 0,
             tms_stime   : 0,
             tms_cutime  : 0,
             tms_cstime  : 0,
         };
-        print!("\rCurrent tick: {:>20}; S Time: {:>20}; U Time: {:>20};", sys_time(&mut t), t.tms_stime, t.tms_utime);
+        println!("\rCurrent tick: {:>20}; S Time: {:>20}; U Time: {:>20};", sys_time(&mut t), t.tms_stime, t.tms_utime);
     }
 
     0

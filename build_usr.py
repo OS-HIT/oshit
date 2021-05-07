@@ -21,7 +21,7 @@ else:
     for f in filelist:
         os.remove(os.path.join(usr_bin_dir, f))
 
-app_list = ["proc0", "uname_test", "time_test", "hello_world", "shell"]
+app_list = ["proc0", "uname_test", "systime_test", "hello_world", "shell"]
 
 for app in apps:
     if app not in app_list:
@@ -33,8 +33,6 @@ for app in apps:
     with open(app + "/src/" + linker, 'w+') as f:
         f.writelines(lines)
     os.chdir(app)
-    print("cleaning...")
-    os.system('cargo clean')
     print("building...")
     os.system('cargo build --bin %s --release' % app)
     print("copying...")
