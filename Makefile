@@ -1,6 +1,7 @@
 
 OS := $(shell grep -iq Microsoft /proc/version)
 DRIVE := f
+MOUNT := fs_mount_point
 
 ifeq ($(OS),)
 	PY := python.exe
@@ -17,6 +18,7 @@ BIN_DIR	:= user_bins
 SRCS	:= $(wildcard $(SRC_DIR)/*)
 BINS	:= $(foreach SRC,$(SRCS), $(BIN_DIR)/$(notdir $(SRC)))
 SD_BINS	:= $(foreach SRC,$(SRCS), $(SD_MNT)/$(notdir $(SRC)))
+FS_BINS	:= $(foreach SRC,$(SRCS), $(MOUNT)/$(notdir $(SRC)))
 
 ifeq ($(OS), )
 sdfiles: | $(SD_MNT) $(SD_BINS)
@@ -24,7 +26,24 @@ else
 sdfiles: $(SD_BINS)
 endif
 
-user: $(BINS)
+user: fs.img
+
+fs.img: fs_img
+
+fs_img: $(FS_BINS)
+	umount $(MOUNT)
+	rm -rf fs_mount_point
+
+fs_img_inner: $(BINS) $(MOUNT)
+	dd if=/dev/zero of=fs.img bs=1024 count=1048576
+	mkfs.vfat fs.img
+	mount -o loop fs.img $(MOUNT)
+
+$(MOUNT)/%: $(BIN_DIR)/% fs_img_inner
+	cp $< $@
+
+$(MOUNT):
+	mkdir $(MOUNT)
 
 $(BIN_DIR)/%: $(SRC_DIR)/%
 	cd $^ && cargo build --bin $* --release
@@ -49,6 +68,8 @@ debug: user
 clean:
 	make -C oshit_kernel clean
 	rm user_bins/*
+	rm fs_img
+	rm -rf $(MOUNT)
 
 .PHONY:
-	run user clean user programs sdfiles
+	run user clean user programs sdfiles fs_img fs_img_inner
