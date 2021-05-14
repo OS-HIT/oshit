@@ -36,8 +36,10 @@ fs.img: $(BINS)
 	&& sudo -E ./make_fs_img
 
 $(BIN_DIR)/%: $(SRC_DIR)/% $(BIN_DIR)
+	cp user_linker.ld $</src/user_linker.ld
 	cd $< && cargo build --bin $* --release
 	cp $</target/riscv64gc-unknown-none-elf/release/$* $@
+	rm $</src/user_linker.ld
 
 $(SD_MNT)/%: $(BIN_DIR)/%
 	cp $^ $@
@@ -67,6 +69,7 @@ clean: clean_usr
 clean_usr: $(SRC_DIR)/*
 	for file in $^; do \
 		cargo clean --manifest-path $${file}/Cargo.toml; \
+		rm $${file}/src/user_linker.ld; \
 	done
 
 .PHONY:
