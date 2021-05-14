@@ -35,12 +35,15 @@ fs.img: $(BINS)
 	&& export BIN_DIR=$(BIN_DIR) \
 	&& sudo -E ./make_fs_img
 
-$(BIN_DIR)/%: $(SRC_DIR)/%
-	cd $^ && cargo build --bin $* --release
-	cp $^/target/riscv64gc-unknown-none-elf/release/$* $@
+$(BIN_DIR)/%: $(SRC_DIR)/% $(BIN_DIR)
+	cd $< && cargo build --bin $* --release
+	cp $</target/riscv64gc-unknown-none-elf/release/$* $@
 
 $(SD_MNT)/%: $(BIN_DIR)/%
 	cp $^ $@
+
+$(BIN_DIR):
+	mkdir $(BIN_DIR)
 
 $(SD_MNT):
 	echo "Folder $(SD_MNT) does not exist, trying to mount sd card. \033[0;31mIf you saw this and you are not in WSL, \033[0;91mABORT NOW SOMETHING IS WRONG\033[0;31m. I don't want to break your system.\033[0m"
@@ -55,11 +58,16 @@ run: user
 debug: user
 	make -C oshit_kernel debug
 
-clean:
+clean: clean_usr
 	make -C oshit_kernel clean
-	rm user_bins/*
-	rm fs_img
+	rm -rf user_bins
+	rm -f fs.img
 	rm -rf $(MOUNT)
 
+clean_usr: $(SRC_DIR)/*
+	for file in $^; do \
+		cargo clean --manifest-path $${file}/Cargo.toml; \
+	done
+
 .PHONY:
-	run user clean user programs sdfiles
+	run user clean user programs sdfiles clean_usr

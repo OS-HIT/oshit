@@ -7,3 +7,4 @@ rm -rf $MOUNT/*
 cp -r $BIN_DIR/* $MOUNT/
 umount $MOUNT
 rm -rf $MOUNT
+chmod 777 fs.img
