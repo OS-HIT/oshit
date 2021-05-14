@@ -26,24 +26,14 @@ else
 sdfiles: $(SD_BINS)
 endif
 
+# user: fs.img
 user: fs.img
 
-fs.img: fs_img
-
-fs_img: $(FS_BINS)
-	umount $(MOUNT)
-	rm -rf fs_mount_point
-
-fs_img_inner: $(BINS) $(MOUNT)
-	dd if=/dev/zero of=fs.img bs=1024 count=1048576
-	mkfs.vfat fs.img
-	mount -o loop fs.img $(MOUNT)
-
-$(MOUNT)/%: $(BIN_DIR)/% fs_img_inner
-	cp $< $@
-
-$(MOUNT):
+fs.img: $(BINS)
 	mkdir $(MOUNT)
+	export MOUNT=$(MOUNT) \
+	&& export BIN_DIR=$(BIN_DIR) \
+	&& sudo -E ./make_fs_img
 
 $(BIN_DIR)/%: $(SRC_DIR)/%
 	cd $^ && cargo build --bin $* --release
@@ -72,4 +62,4 @@ clean:
 	rm -rf $(MOUNT)
 
 .PHONY:
-	run user clean user programs sdfiles fs_img fs_img_inner
+	run user clean user programs sdfiles

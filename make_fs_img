@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Building file system..."
+dd if=/dev/zero of=fs.img bs=1024 count=1048576
+mkfs.vfat fs.img
+mount -o loop fs.img $MOUNT
+rm -rf $MOUNT/*
+cp -r $BIN_DIR/* $MOUNT/
+umount $MOUNT
+rm -rf $MOUNT
