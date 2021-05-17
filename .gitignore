@@ -3,3 +3,4 @@ user_bins/*
 !/user_linker.ld
 fs.img
 fs_mount_point
+.vscode

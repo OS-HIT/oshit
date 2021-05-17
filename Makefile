@@ -62,6 +62,7 @@ debug: user
 
 clean: clean_usr
 	make -C oshit_kernel clean
+	cd oshit_usrlib && cargo clean
 	rm -rf user_bins
 	rm -f fs.img
 	rm -rf $(MOUNT)
@@ -69,7 +70,7 @@ clean: clean_usr
 clean_usr: $(SRC_DIR)/*
 	for file in $^; do \
 		cargo clean --manifest-path $${file}/Cargo.toml; \
-		rm $${file}/src/user_linker.ld; \
+		rm -f $${file}/src/user_linker.ld; \
 	done
 
 .PHONY:
