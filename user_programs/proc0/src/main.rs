@@ -8,7 +8,7 @@ extern crate oshit_usrlib;
 
 use oshit_usrlib::{
     sys_fork,
-    sys_waitpid,
+    wait,
     sys_exec,
     sys_yield,
 };
@@ -21,8 +21,8 @@ fn main() -> i32 {
     } else {
         loop {
             let mut exit_code: i32 = 0;
-            let pid = sys_waitpid(-1, &mut exit_code);
-            if pid == -1 || pid == -2{
+            let pid = wait(&mut exit_code);
+            if pid == -1{
                 sys_yield();
                 continue;
             } 
