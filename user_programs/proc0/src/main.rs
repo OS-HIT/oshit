@@ -17,7 +17,7 @@ use oshit_usrlib::{
 fn main() -> i32 {
     println!("[proc0] Started.");
     if sys_fork() == 0 {
-        sys_exec(b"/shell\0".as_ptr());
+        sys_exec(b"/shell\0".as_ptr(), &[0 as *const u8], &[0 as *const u8]);
     } else {
         loop {
             let mut exit_code: i32 = 0;

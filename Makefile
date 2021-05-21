@@ -19,6 +19,8 @@ SRCS	:= $(wildcard $(SRC_DIR)/*)
 BINS	:= $(foreach SRC,$(SRCS), $(BIN_DIR)/$(notdir $(SRC)))
 SD_BINS	:= $(foreach SRC,$(SRCS), $(SD_MNT)/$(notdir $(SRC)))
 FS_BINS	:= $(foreach SRC,$(SRCS), $(MOUNT)/$(notdir $(SRC)))
+SRC_FILES := $(shell find $(SRC_DIR) -type f -name '*.rs')
+LIB_FILES := $(shell find oshit_usrlib -type f -name '*.rs')
 
 ifeq ($(OS), )
 sdfiles: | $(SD_MNT) $(SD_BINS)
@@ -29,7 +31,7 @@ endif
 # user: fs.img
 user: fs.img
 
-fs.img: $(BINS)
+fs.img: $(BINS) $(ALL_FILES)
 	mkdir $(MOUNT)
 	export MOUNT=$(MOUNT) \
 	&& export BIN_DIR=$(BIN_DIR) \
