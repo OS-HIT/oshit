@@ -21,6 +21,7 @@ SD_BINS	:= $(foreach SRC,$(SRCS), $(SD_MNT)/$(notdir $(SRC)))
 FS_BINS	:= $(foreach SRC,$(SRCS), $(MOUNT)/$(notdir $(SRC)))
 SRC_FILES := $(shell find $(SRC_DIR) -type f -name '*.rs')
 LIB_FILES := $(shell find oshit_usrlib -type f -name '*.rs')
+ALL_FILES := $(SRC_FILES) $(LIB_FILES)
 
 ifeq ($(OS), )
 sdfiles: | $(SD_MNT) $(SD_BINS)

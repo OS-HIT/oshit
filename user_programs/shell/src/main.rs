@@ -109,7 +109,7 @@ fn main() -> i32 {
             let mut exit_code: i32 = 0;
             loop {
                 if sys_waitpid(pid, &mut exit_code) > 0 {
-                    println!("Finished with code {}.", exit_code);
+                    println!("Process finished with code {}.", exit_code);
                     break;
                 }
             }
