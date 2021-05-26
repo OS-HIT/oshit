@@ -4,3 +4,4 @@ user_bins/*
 fs.img
 fs_mount_point
 .vscode
+kendryte-toolchain
