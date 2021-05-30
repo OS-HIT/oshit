@@ -13,11 +13,57 @@ use oshit_usrlib::{
     sys_yield,
 };
 
+const programs : &'static [&'static [u8]] = &[
+    b"/shell\0", 
+    b"/brk\0", 
+    b"/chdir\0",
+    b"/clone\0",
+    b"/close\0",
+    b"/dup\0",
+    b"/dup2\0",
+    b"/execve\0",
+    b"/exit\0",
+    b"/fork\0",
+    b"/fstat\0",
+    b"/getcwd\0",
+    b"/getdents\0",
+    b"/getpid\0",
+    b"/getppid\0",
+    b"/gettimeofday\0",
+    b"/mkdir_\0",
+    b"/mmap\0",
+    b"/mount\0",
+    b"/munmap\0",
+    b"/open\0",
+    b"/openat\0",
+    b"/pipe\0",
+    b"/read\0",
+    b"/sleep\0",
+    b"/times\0",
+    b"/umount\0",
+    b"/uname\0",
+    b"/unlink\0",
+    b"/wait\0",
+    b"/waitpid\0",
+    b"/write\0",
+    b"/yield\0"
+];
+
 #[no_mangle]
 fn main() -> i32 {
     println!("[proc0] Started.");
     if sys_fork() == 0 {
-        sys_exec(b"/shell\0".as_ptr(), &[0 as *const u8], &[0 as *const u8]);
+        for prog in programs {
+            println!("Now execute: {}", core::str::from_utf8(prog).unwrap());
+            let child = sys_fork();
+            if child == 0 {
+                sys_exec(prog.as_ptr(), &[0 as *const u8], &[0 as *const u8]);
+            } else {
+                let mut exit_code: i32 = 0;
+                sys_waitpid(child, &mut exit_code);
+                println!("Finished {}", core::str::from_utf8(prog).unwrap());
+            }
+        }
     } else {
         loop {
             let mut exit_code: i32 = 0;
