@@ -16,7 +16,7 @@ use oshit_usrlib::{
 };
 
 const programs : &'static [&'static [u8]] = &[
-    // b"/shell\0", 
+    b"/shell\0", 
     b"/brk\0", 
     b"/chdir\0",
     b"/clone\0",
