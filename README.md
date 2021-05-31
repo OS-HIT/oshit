@@ -32,3 +32,5 @@ make run
 要更改输出等级，请在make run时加上`LOG_LVL=[verbose|debug|info|warning|error|fatal|silence]`。
 ## 环境要求
 需要rustup和网络连接。可以在WSL2和Linux上构建。
+## 协议
+本项目采用MIT协议开源。
