@@ -62,12 +62,12 @@ fs.img: $(SRC_FILES) $(K210_TOOL) $(BIN_DIR) $(eval SHELL:=/bin/bash)
 
 	cp user_linker.ld $(PROC0_DIR)/src/user_linker.ld
 	cd $(PROC0_DIR) && cargo build --bin proc0 --release
-	cp $(PROC0_DIR)/target/riscv64gc-unknown-none-elf/release/proc0 $(BIN_DIR)
+	cp $(PROC0_DIR)/target/riscv64imac-unknown-none-elf/release/proc0 $(BIN_DIR)
 	rm $(PROC0_DIR)/src/user_linker.ld
 
 	cp user_linker.ld $(SHELL_DIR)/src/user_linker.ld
 	cd $(SHELL_DIR) && cargo build --bin shell --release
-	cp $(SHELL_DIR)/target/riscv64gc-unknown-none-elf/release/shell $(BIN_DIR)
+	cp $(SHELL_DIR)/target/riscv64imac-unknown-none-elf/release/shell $(BIN_DIR)
 	rm $(SHELL_DIR)/src/user_linker.ld
 
 	mkdir $(MOUNT)
@@ -82,7 +82,7 @@ $(K210_TOOL): $(K210_TOOL_ZIP)
 $(BIN_DIR)/%: $(SRC_DIR)/% $(BIN_DIR)
 	cp user_linker.ld $</src/user_linker.ld
 	cd $< && cargo build --bin $* --release
-	cp $</target/riscv64gc-unknown-none-elf/release/$* $@
+	cp $</target/riscv64imac-unknown-none-elf/release/$* $@
 	rm $</src/user_linker.ld
 
 $(SD_MNT)/%: $(BIN_DIR)/%
