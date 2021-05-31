@@ -1,3 +1,34 @@
-OS-HIT project
-An operating system based on Rust.
-这位先生，可以占用你一点时间吗？我希望能跟你讲一下我们的天父和救主，[rCore-Tutorial-v3](https://rcore-os.github.io/rCore-Tutorial-Book-v3/)
+```
+ ██████╗ ███████╗      ██╗  ██╗██╗████████╗  
+██╔═══██╗██╔════╝      ██║  ██║██║╚══██╔══╝  
+██║   ██║███████╗█████╗███████║██║   ██║     
+██║   ██║╚════██║╚════╝██╔══██║██║   ██║     
+╚██████╔╝███████║      ██║  ██║██║   ██║     
+ ╚═════╝ ╚══════╝      ╚═╝  ╚═╝╚═╝   ╚═╝   
+``` 
+# OSHIT操作系统
+本项目是一个基于RISC-V平台的操作系统实现，支持一部分Unix Like Syscall。
+## 编译运行
+倘若要在k210上运行，请连接K210，并执行：
+```bash
+make run BOARD=k210
+```
+倘若要在qemu上运行，请执行
+```bash
+make run
+```
+若要在`debug`和`release`之间选择，请在make run时加上`MODE=[debug|release]`。  
+本项目支持7种debug信息输出等级，包括: 
+| 输出等级  | 含义                                                  |
+|-----------|-------------------------------------------------------|
+| verbose   | 最多的输出。输出行数相当多，常常用来追踪bug。         |
+| debug     | 第二多的输出。常用来追踪执行流。这是默认输出等级。    |
+| info      | 对用户而言有一定意义的输出。                          |
+| warning   | 有什么东西可能有问题。                                |
+| error     | 有什么东西绝对有问题，但是不至于让内核挂掉。          |
+| fatal     | 大概内核要挂了（悲）                                  |
+| silence   | 完全沉默。                                            |  
+
+要更改输出等级，请在make run时加上`LOG_LVL=[verbose|debug|info|warning|error|fatal|silence]`。
+## 环境要求
+需要rustup和网络连接。可以在WSL2和Linux上构建。
