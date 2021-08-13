@@ -13,3 +13,6 @@
 [submodule "oshit_rootfs"]
 	path = oshit_rootfs
 	url = git@github.com:OS-HIT/oshit_rootfs.git
+[submodule "opensbi"]
+	path = opensbi
+	url = https://github.com/riscv/opensbi.git

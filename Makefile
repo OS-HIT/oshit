@@ -96,3 +96,15 @@ clean: clean_usr
 	cd oshit_usrlib && cargo clean
 
 .PHONY: run user clean clean_usr sd $(KERNEL_BIN) $(FS_IMG)
+
+ifeq ($(BOARD), qemu)
+FW_JUMP_ADDR := 0x80200000
+else ifeq ($(BOARD), k210)
+FW_JUMP_ADDR := 0x80040000
+endif
+
+_opensbi:
+	export CROSS_COMPILE=riscv64-unknown-elf- &&\
+	export PLATFORM_RISCV_XLEN=64 &&\
+	cd opensbi && make PLATFORM=kendryte/k210 FW_JUMP=y FW_JUMP_ADDR=$(FW_JUMP_ADDR)
+	cp opensbi/build/platform/kendryte/k210/firmware/fw_jump.bin bootloader/opensbi-$(BOARD).bin
