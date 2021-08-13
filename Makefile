@@ -99,12 +99,14 @@ clean: clean_usr
 
 ifeq ($(BOARD), qemu)
 FW_JUMP_ADDR := 0x80200000
+PLATFORM := generic
 else ifeq ($(BOARD), k210)
 FW_JUMP_ADDR := 0x80040000
+PLATFORM := kendryte/k210
 endif
 
 opensbi:
 	export CROSS_COMPILE=riscv64-unknown-elf- &&\
 	export PLATFORM_RISCV_XLEN=64 &&\
-	cd opensbi && make PLATFORM=kendryte/k210 FW_JUMP=y FW_JUMP_ADDR=$(FW_JUMP_ADDR) FW_PAYLOAD=n
-	cp opensbi/build/platform/kendryte/k210/firmware/fw_jump.bin bootloader/opensbi-$(BOARD).bin
+	cd opensbi && make PLATFORM=$(PLATFORM) FW_JUMP=y FW_JUMP_ADDR=$(FW_JUMP_ADDR) FW_PAYLOAD=n
+	cp opensbi/build/platform/$(PLATFORM)/firmware/fw_jump.bin bootloader/opensbi-$(BOARD).bin
