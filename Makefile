@@ -3,11 +3,15 @@ WSL_DRIVE 				:= f
 MOUNT 					:= fs_mount_point
 KERNEL_BIN 				= oshit_kernel/kernel.bin
 K210_BIN				= k210.bin
-FS_IMG					= oshit_rootfs/fs.img
+FS_IMG					= fs.img
 BOARD					?= qemu
 BOOTLOADER 				:= bootloader/rustsbi-$(BOARD).bin
 K210_BOOTLOADER_SIZE 	:= 131072
 LOG_LVL					= info
+
+QEMU_SD_MOUNT			:= qemu_sd_mount
+SD_CONTENT				:= sd_contents
+PROC0					:= proc0/proc0
 
 # KERNEL ENTRY
 ifeq ($(BOARD), qemu)
@@ -51,11 +55,28 @@ $(SD_MNT):
 
 sd: $(FS_IMG)
 
-$(KERNEL_BIN): 
-	make -C oshit_kernel all
+$(KERNEL_BIN): $(PROC0)
+	cp $(PROC0) oshit_kernel/built_in_elfs/
+	make -C oshit_kernel all BUILT_IN_PROC0=y
 
-$(FS_IMG):
-	make -C oshit_rootfs all
+$(PROC0):
+	make -C proc0 proc0
+
+$(FS_IMG): $(SD_CONTENT) $(QEMU_SD_MOUNT)
+	sudo dd if=/dev/zero of=$(FS_IMG) bs=1024 count=1048576
+	sudo mkfs.vfat $(FS_IMG)
+	sudo mount -o loop $(FS_IMG) $(QEMU_SD_MOUNT)
+	sudo rm -rf $(QEMU_SD_MOUNT)/*
+	sudo cp -r -v $(SD_CONTENT)/* $(QEMU_SD_MOUNT)
+	sudo umount $(QEMU_SD_MOUNT)
+	sudo chmod 777 $(FS_IMG)
+
+$(SD_CONTENT): sdcard.zip
+	mkdir $(SD_CONTENT)
+	unzip sdcard.zip -d $(SD_CONTENT)
+
+$(QEMU_SD_MOUNT):
+	mkdir $(QEMU_SD_MOUNT)
 
 $(K210_BIN): $(KERNEL_BIN) $(BOOTLOADER)
 	cp $(BOOTLOADER) $(BOOTLOADER).copy
@@ -92,8 +113,9 @@ debug: $(KERNEL_BIN) $(FS_IMG) $(BOOTLOADER)
 
 clean: clean_usr
 	make -C oshit_kernel clean
-	make -C oshit_rootfs clean
+	make -C proc0 clean
 	cd oshit_usrlib && cargo clean
+	rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT)
 
 .PHONY: run user clean clean_usr sd $(KERNEL_BIN) $(FS_IMG) opensbi
 

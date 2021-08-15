@@ -6,3 +6,8 @@ fs_mount_point
 .vscode
 kendryte-toolchain
 user_programs
+sd_contents
+qemu_sd_mount
+proc0/proc0.d
+proc0/proc0.o
+proc0/proc0

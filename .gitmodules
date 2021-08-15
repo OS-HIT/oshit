@@ -10,9 +10,6 @@
 [submodule "testsuits-for-oskernel"]
 	path = testsuits-for-oskernel
 	url = git@github.com:oscomp/testsuits-for-oskernel.git
-[submodule "oshit_rootfs"]
-	path = oshit_rootfs
-	url = git@github.com:OS-HIT/oshit_rootfs.git
 [submodule "opensbi"]
 	path = opensbi
 	url = https://github.com/riscv/opensbi.git
