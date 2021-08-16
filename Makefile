@@ -7,6 +7,7 @@ FS_IMG					= fs.img
 BOARD					?= qemu
 BOOTLOADER 				:= bootloader/rustsbi-$(BOARD).bin
 K210_BOOTLOADER_SIZE 	:= 131072
+K210-BURNER		:= kflash.py/kflash.py
 LOG_LVL					= info
 
 QEMU_SD_MOUNT			:= qemu_sd_mount
@@ -115,9 +116,9 @@ clean: clean_usr
 	make -C oshit_kernel clean
 	make -C proc0 clean
 	cd oshit_usrlib && cargo clean
-	rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT)
+	# rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT)
 
-.PHONY: run user clean clean_usr sd $(KERNEL_BIN) $(FS_IMG) opensbi
+.PHONY: run user clean clean_usr sd $(KERNEL_BIN) opensbi
 
 ifeq ($(BOARD), qemu)
 FW_JUMP_ADDR := 0x80200000
