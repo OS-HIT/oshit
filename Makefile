@@ -35,6 +35,9 @@ endif
 all: $(PROC0) $(K210_BIN) 
 
 submission_prep: 
+	git clone https://github.com/OS-HIT/oshit_kernel.git
+	rm -rf oshit_kernel/.git
+	git add oshit_kernel
 	mv oshit_kernel/Cargo.toml oshit_kernel/Cargo.toml.bak
 	cp Cargo.toml.submission oshit_kernel/Cargo.toml
 
