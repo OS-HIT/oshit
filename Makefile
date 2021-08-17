@@ -31,6 +31,13 @@ else
 	K210-SERIALPORT	:= COM3
 endif
 
+# Submission
+submission: $(PROC0) $(K210_BIN) 
+
+submission_prep: 
+	mv oshit_kernel/Cargo.toml oshit_kernel/Cargo.toml.bak
+	cp Cargo.toml.submission oshit_kernel/Cargo.toml
+
 $(K210_TOOL): $(K210_TOOL_ZIP)
 	tar -xf $(K210_TOOL_ZIP)\
 
@@ -56,7 +63,8 @@ $(SD_MNT):
 
 sd: $(FS_IMG)
 
-$(KERNEL_BIN): $(PROC0)
+$(KERNEL_BIN): $(PROC1)
+	mkdir -p oshit_kernel/built_in_elfs
 	cp $(PROC0) oshit_kernel/built_in_elfs/
 	make -C oshit_kernel all BUILT_IN_PROC0=y
 
@@ -115,7 +123,7 @@ debug: $(KERNEL_BIN) $(FS_IMG) $(BOOTLOADER)
 clean: clean_usr
 	make -C oshit_kernel clean
 	make -C proc0 clean
-	cd oshit_usrlib && cargo clean
+	rm k210.bin
 	# rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT)
 
 .PHONY: run user clean clean_usr sd $(KERNEL_BIN) opensbi

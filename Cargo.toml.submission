@@ -1,0 +1,34 @@
+[package]
+name = "oshit_kernel"
+version = "0.1.0"
+authors = ["willson0v0 <willsonlgz@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+riscv = { path = "../vendor/riscv", features = ["inline-asm"] }
+lazy_static = { version = "1.4.0", features = ["spin_no_std"] }
+bitflags = "1.2.1"
+buddy_system_allocator = "0.6"
+spin = "0.7.0"
+xmas-elf = "0.7.0"
+k210-pac = { path = "../vendor/k210-pac" }
+k210-hal = { path = "../vendor/k210-hal" }
+k210-soc = { path = "../vendor/k210-soc" }
+virtio-drivers = { path = "../vendor/virtio-drivers" }
+bit_field = "0.10.1"
+
+[build-dependencies]
+chrono = "0.4"
+
+[features]
+min_log_level_verbose = []
+min_log_level_debug = []
+min_log_level_info = []
+min_log_level_warning = []
+min_log_level_error = []
+min_log_level_fatal = []
+board_qemu = []
+board_k210 = []
+built_in_proc0 = []
