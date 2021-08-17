@@ -32,7 +32,7 @@ else
 endif
 
 # Submission
-submission: $(PROC0) $(K210_BIN) 
+all: $(PROC0) $(K210_BIN) 
 
 submission_prep: 
 	mv oshit_kernel/Cargo.toml oshit_kernel/Cargo.toml.bak
