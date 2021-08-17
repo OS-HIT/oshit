@@ -158,6 +158,7 @@ void _start() {
 			int nxt_space = find(cmd, ' ');
 			memcpy(cmd, name, nxt_space);
 			int j = 0;
+			argv[j++] = name;
 			char* argv_iter = cmd;
 			while(nxt_space != strlen(argv_iter)) {
 				argv_iter[nxt_space] = '\0';
