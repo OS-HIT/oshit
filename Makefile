@@ -119,6 +119,7 @@ clean: clean_usr
 	rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT) $(FS_IMG)
 
 clean_fs:
+	make -C proc0 clean
 	rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT) $(FS_IMG)
 
 .PHONY: run user clean clean_usr sd $(KERNEL_BIN) opensbi
