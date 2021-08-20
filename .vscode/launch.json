@@ -8,7 +8,7 @@
             "type": "gdb",
             "request": "attach",
             "name": "Attach to gdbserver",
-            "executable": "oshit_kernel/target/riscv64gc-unknown-none-elf/debug/oshit_kernel",
+            "executable": "oshit_kernel/target/riscv64imac-unknown-none-elf/debug/oshit_kernel",
             "target": "127.0.0.1:1234",
             "remote": true,
             "cwd": "${workspaceRoot}", 

@@ -85,7 +85,7 @@ $(K210_BIN): $(KERNEL_BIN) $(BOOTLOADER)
 	mv $(BOOTLOADER).copy $(K210_BIN)
 
 ifeq ($(BOARD),qemu)
-run: $(KERNEL_BIN) $(FS_IMG) $(BOOTLOADER)
+run: $(KERNEL_BIN) $(FS_IMG) 
 	qemu-system-riscv64 \
 		-machine virt \
 		-nographic \
@@ -102,7 +102,7 @@ endif
 	@$(PY) -m serial.tools.miniterm --eol LF --dtr 0 --rts 0 --filter direct $(K210-SERIALPORT) 115200
 endif
 
-debug: $(KERNEL_BIN) $(FS_IMG) $(BOOTLOADER)
+debug: $(KERNEL_BIN) $(FS_IMG) 
 	@qemu-system-riscv64 \
 			-s -S \
 			-machine virt \
