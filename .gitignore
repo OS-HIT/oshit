@@ -11,3 +11,4 @@ qemu_sd_mount
 proc0/proc0.d
 proc0/proc0.o
 proc0/proc0
+null.d

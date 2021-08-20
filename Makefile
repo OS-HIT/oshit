@@ -116,7 +116,10 @@ clean: clean_usr
 	make -C oshit_kernel clean
 	make -C proc0 clean
 	cd oshit_usrlib && cargo clean
-	# rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT)
+	rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT) $(FS_IMG)
+
+clean_fs:
+	rm -rf  $(QEMU_SD_MOUNT) $(SD_CONTENT) $(FS_IMG)
 
 .PHONY: run user clean clean_usr sd $(KERNEL_BIN) opensbi
 
